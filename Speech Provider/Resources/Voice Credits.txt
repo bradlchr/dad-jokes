@@ -1,0 +1,23 @@
+Dad Jokes Live — offline stage voices
+
+Piper en_US-libritts_r-medium model, published by Michael Hansen (Rhasspy):
+https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/libritts_r/medium
+
+The Piper weights are distributed under MIT. The model was trained on
+LibriTTS-R by Yuma Koizumi et al., released under CC BY 4.0:
+https://www.openslr.org/141/
+https://creativecommons.org/licenses/by/4.0/
+
+The ONNX distribution, pronunciation lexicon, and tokens are from Sherpa-ONNX:
+https://huggingface.co/csukuangfj/vits-piper-en_US-libritts_r-medium
+The lexicon was reformatted with Piper’s word/phoneme separator.
+The four fictional characters use distinct speakers from the published model.
+
+Sherpa-ONNX 2.0.1 by K2 FSA contributors, Apache 2.0.
+https://github.com/k2-fsa/sherpa-onnx/releases/tag/v2.0.1
+Sherpa-ONNX-LICENSE.txt accompanies this notice.
+
+ONNX Runtime by Microsoft Corporation, MIT.
+https://github.com/microsoft/onnxruntime
+License: https://github.com/microsoft/onnxruntime/blob/main/LICENSE
+Third-party notices: https://github.com/microsoft/onnxruntime/blob/main/ThirdPartyNotices.txt

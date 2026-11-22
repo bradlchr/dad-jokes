@@ -1,0 +1,1006 @@
+[
+  {
+    "id": "classic-1",
+    "setup": "Why was the strawberry crying?",
+    "punchline": "He was berry sad",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-2",
+    "setup": "I heard you got fired from your job at the cemetery. You made a grave mistake",
+    "punchline": "",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-3",
+    "setup": "What do you get when a woman smears honey on her chest?",
+    "punchline": "Boob Bees",
+    "categories": [],
+    "isMature": true
+  },
+  {
+    "id": "classic-4",
+    "setup": "Atheism is a non-prophet organization.",
+    "punchline": "",
+    "categories": [
+      "One-Liners",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-5",
+    "setup": "I always wanted to be a monk but I never got the chants",
+    "punchline": "",
+    "categories": [
+      "One-Liners",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-6",
+    "setup": "I think I want to be a realtor. That job would be right up my alley",
+    "punchline": "",
+    "categories": [
+      "Work",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-7",
+    "setup": "Why do lighthouse keepers raise chickens?",
+    "punchline": "Because they like eggs with their beacon.",
+    "categories": [
+      "Animal",
+      "Food",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-8",
+    "setup": "What did the pregnant woman say after the doctor arrived to deliver her baby?",
+    "punchline": "No, my baby needs to keep his liver",
+    "categories": [
+      "Medical"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-9",
+    "setup": "PMS jokes aren’t funny. Period.",
+    "punchline": "",
+    "categories": [
+      "One-Liners",
+      "Puns"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-10",
+    "setup": "One fifth of people are too tense (two tenths)",
+    "punchline": "",
+    "categories": [
+      "One-Liners",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-11",
+    "setup": "All of the toilets in the Police Department have been stolen. Cops have nothing to go on.",
+    "punchline": "",
+    "categories": [
+      "Work"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-12",
+    "setup": "There was a big sale on paddles at the boat store. Yes, it was a big ore deal",
+    "punchline": "",
+    "categories": [
+      "Sports",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-13",
+    "setup": "Thank God for nipples. Otherwise boobs would be pointless",
+    "punchline": "",
+    "categories": [],
+    "isMature": true
+  },
+  {
+    "id": "classic-14",
+    "setup": "How does Moses make coffee?",
+    "punchline": "Hebrews it",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-15",
+    "setup": "What does a duck eat with soup?",
+    "punchline": "Qwackers.",
+    "categories": [
+      "Animal",
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-16",
+    "setup": "What do you get when you combine an epileptic named Bill, a Budweiser, and good literature?",
+    "punchline": "William Shakesbeer.",
+    "categories": [],
+    "isMature": true
+  },
+  {
+    "id": "classic-17",
+    "setup": "Where is the cheapest place to buy a spider?",
+    "punchline": "On the web",
+    "categories": [
+      "Animal",
+      "Computer",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-18",
+    "setup": "What do you call a man that adds his right hand and his left hand together?",
+    "punchline": "Handsome (hand sum)",
+    "categories": [
+      "Math"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-19",
+    "setup": "What kind of shoes do frogs wear?",
+    "punchline": "Open toad",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-20",
+    "setup": "What do you call musical whales?",
+    "punchline": "An Orca-stra",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-21",
+    "setup": "Did you hear about the new restaurant on the moon?",
+    "punchline": "Great food but no atmosphere.",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-22",
+    "setup": "Why can’t you trust stairs?",
+    "punchline": "Because they’re always up to something",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-23",
+    "setup": "Where do sheep get their hair cut?",
+    "punchline": "The baa baa shop",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-24",
+    "setup": "Why should you never let a nurse draw a blood gas?",
+    "punchline": "Because they have arterial motives",
+    "categories": [
+      "Medical"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-25",
+    "setup": "Why couldn’t the pony speak?",
+    "punchline": "He was a little hoarse",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-26",
+    "setup": "What did the police say when they arrested the cow?",
+    "punchline": "Don’t moooooove.",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-27",
+    "setup": "Why was the golf club in the hospital?",
+    "punchline": "He had a stroke",
+    "categories": [
+      "Medical",
+      "Sports"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-28",
+    "setup": "An old woman walked into the bank and asked the clerk to check her balance. Do you know what happened?",
+    "punchline": "He pushed her and she fell down. Balance was not good.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-29",
+    "setup": "Do tomatoes have a smell?",
+    "punchline": "They do if you have a roma",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-30",
+    "setup": "When baking cookies, do you know what you call a bowl of odd looking ingredients?",
+    "punchline": "A weirddough",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-31",
+    "setup": "Spanish Magician: I’m going to disappear on the count of of 3. UNO, DOS, and then he vanished without a TRES",
+    "punchline": "",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-32",
+    "setup": "My girlfriend raises bees. She’s a keeper.",
+    "punchline": "",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-33",
+    "setup": "Do you know why I hate shopping when all the stores are under the same roof?",
+    "punchline": "Once you’ve seen one, you’ve seen a mall.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-34",
+    "setup": "How do you know the wedding cake was sad?",
+    "punchline": "It was in tiers",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-35",
+    "setup": "I can cut down a tree just by looking at it. Yep, I saw it with my own eyes.",
+    "punchline": "",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-36",
+    "setup": "What do you call a huge pile of cats?",
+    "punchline": "A meowtian.",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-37",
+    "setup": "Where does a king keep his armies?",
+    "punchline": "In his sleeves!",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-38",
+    "setup": "What sound do you hear at funerals?",
+    "punchline": "Coffin",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-39",
+    "setup": "When two vegetarians are having an argument, are they really having a beef?",
+    "punchline": "",
+    "categories": [
+      "Animal",
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-40",
+    "setup": "Do you know why we don’t eat Wookie meat?",
+    "punchline": "Because it’s Chewy!",
+    "categories": [
+      "Food",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-41",
+    "setup": "I was out walking and saw a group of sleepy cows in a field. I told them it was pasture bedtime.",
+    "punchline": "",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-42",
+    "setup": "Did you know I can jump higher than the house?",
+    "punchline": "You’re silly. Houses can’t jump.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-43",
+    "setup": "How do you cure kleptomania?",
+    "punchline": "You take something for it.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-44",
+    "setup": "Which type of physician is a real loser?",
+    "punchline": "A podiatrist.... he knows defeat.",
+    "categories": [
+      "Medical"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-45",
+    "setup": "Why did the criminal climb into a penny?",
+    "punchline": "He wanted to be in a cent.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-46",
+    "setup": "If a lady named Nancy is expecting a baby, would we would have a Preg-Nancy.",
+    "punchline": "",
+    "categories": [
+      "Medical"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-47",
+    "setup": "What did the horse say when he tripped and fell down?",
+    "punchline": "Help, I’ve fallen and I can’t giddy up.",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-48",
+    "setup": "When you’re cold, why is it best to sit in the corner?",
+    "punchline": "Because it’s 90°.",
+    "categories": [
+      "Math"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-49",
+    "setup": "What do you get when you cross a snowman with a vampire?",
+    "punchline": "Frostbite",
+    "categories": [
+      "Holiday"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-50",
+    "setup": "Why can’t you trust atoms?",
+    "punchline": "Because they make up everything.",
+    "categories": [
+      "Science"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-51",
+    "setup": "Did you know Iron Man is actually Fe Male.",
+    "punchline": "",
+    "categories": [
+      "Science"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-52",
+    "setup": "When taking a milk bath should you have it pasteurized?",
+    "punchline": "No, just up to your neck is best.",
+    "categories": [
+      "Puns",
+      "Science"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-53",
+    "setup": "How do cattle multiply?",
+    "punchline": "They use a cowculator.",
+    "categories": [
+      "Animal",
+      "Math"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-54",
+    "setup": "I reserved a limousine but the driver never showed up. I paid all that money and have nothing to chauffeur it.",
+    "punchline": "",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-55",
+    "setup": "Do you know why Don still carries a comb in his pocket?",
+    "punchline": "He just can't part with it.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-56",
+    "setup": "What do you call a cow that doesn’t give milk?",
+    "punchline": "A milk dud or an utter failure.",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-57",
+    "setup": "My son swallowed a bunch of Scrabble tiles. His next trip to the bathroom spelled disaster.",
+    "punchline": "",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-58",
+    "setup": "Why should you be nice to your dentist?",
+    "punchline": "Because he has fillings too.",
+    "categories": [
+      "Work",
+      "Medical"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-59",
+    "setup": "What happens if the owner of a perfume factory dies broke?",
+    "punchline": "His heirs won’t get a scent.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-60",
+    "setup": "Turning vegan would be a missed steak.",
+    "punchline": "",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-61",
+    "setup": "What do you call a deer with no eyes?",
+    "punchline": "No eye-deer.",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-62",
+    "setup": "A pirate was selling corn on the cob. Do you know how much it cost?",
+    "punchline": "It was a buccaneer",
+    "categories": [
+      "Food",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-63",
+    "setup": "What sound does a 747 make during a bouncy landing?",
+    "punchline": "Boeing Boeing Boeing.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-64",
+    "setup": "Why did the talking tree strike a conversation with the lumberjack?",
+    "punchline": "He wanted to dialogue.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-65",
+    "setup": "Why should you never fall in love with a pastry chef?",
+    "punchline": "Because he will dessert you",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-66",
+    "setup": "Why are vegetarians lonely?",
+    "punchline": "They can’t meat friends.",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-67",
+    "setup": "Why should you neuter your dog?",
+    "punchline": "Makes them less nuts.",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-68",
+    "setup": "Who tells the best egg jokes?",
+    "punchline": "Comedy-hens.",
+    "categories": [
+      "Animal",
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-69",
+    "setup": "What do you call a bear with no teeth?",
+    "punchline": "A gummy bear.",
+    "categories": [
+      "Animal",
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-70",
+    "setup": "Did you hear about the chef at Olive Garden?",
+    "punchline": "Yep, he pasta way.",
+    "categories": [
+      "Food"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-71",
+    "setup": "Will glass coffins ever become popular?",
+    "punchline": "Remains to be seen.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-72",
+    "setup": "What is the difference between a hippo and a zippo?",
+    "punchline": "A hippo is very heavy and a zippo is a little lighter.",
+    "categories": [
+      "Animal",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-73",
+    "setup": "Did you hear about the cross eyed teacher that lost her job?",
+    "punchline": "Yep, she couldn’t control her pupils.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-74",
+    "setup": "I don’t appreciate the work of geologists. I always take rocks for granite.",
+    "punchline": "",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-75",
+    "setup": "Why do cows have hooves rather than feet. Because they lactose.",
+    "punchline": "",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-76",
+    "setup": "Cat jokes freak meowt. I’m not kitten.",
+    "punchline": "",
+    "categories": [
+      "Animal",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-77",
+    "setup": "Where did Noah store his two bees?",
+    "punchline": "In the ark hive.",
+    "categories": [
+      "Animal",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-78",
+    "setup": "Are mountains funny?",
+    "punchline": "Yes, they’re hill areas (hilarious)",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-79",
+    "setup": "Studies show that when farmers talk to their cows they produce more milk. It’s a case of in one ear and out the udder.",
+    "punchline": "",
+    "categories": [
+      "Animal",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-80",
+    "setup": "What is the medical term for owning too many dogs. A rover dose.",
+    "punchline": "",
+    "categories": [
+      "Animal",
+      "Medical"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-81",
+    "setup": "I was taking classes to learn how to compose classical music, but I just couldn't Handel it so I asked for my money Bach.",
+    "punchline": "",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-82",
+    "setup": "What do you call a police alligator wearing a 3 piece suit after he takes off his jacket?",
+    "punchline": "Investigator.",
+    "categories": [
+      "Animal",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-83",
+    "setup": "I have some racing geese for sale. Let me know if you want to take a quick gander.",
+    "punchline": "",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-84",
+    "setup": "What do you call an erratic photographer?",
+    "punchline": "A loose Canon.",
+    "categories": [
+      "Photography"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-85",
+    "setup": "I got thrown out of a local park for lining up the squirrels according to height. Apparently they didn’t like me critter sizing.",
+    "punchline": "",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-86",
+    "setup": "Why should people not crush their pop cans?",
+    "punchline": "Because it can be soda pressing",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-87",
+    "setup": "What do you call a parade of rabbits hopping away?",
+    "punchline": "A receding hare-line.",
+    "categories": [
+      "Animal",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-88",
+    "setup": "How do you fix a broken tuba?",
+    "punchline": "With a tuba glue.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-89",
+    "setup": "Where did Captain Hook get his hook?",
+    "punchline": "The second hand shop.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-90",
+    "setup": "What do you say when a vegetarian dies?",
+    "punchline": "Rest in peas.",
+    "categories": [
+      "Food"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-91",
+    "setup": "Someone threw a bottle of omega-3 capsules at me. Luckily my injuries were super fish oil.",
+    "punchline": "",
+    "categories": [
+      "Food",
+      "Medical"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-92",
+    "setup": "What does a thesaurus eat for breakfast?",
+    "punchline": "A synonym roll.",
+    "categories": [
+      "Food",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-93",
+    "setup": "What do you call a potato wearing glasses?",
+    "punchline": "A spectator.",
+    "categories": [
+      "Food",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-94",
+    "setup": "What medication do you give to a person addicted to buying large boats?",
+    "punchline": "Anti-buy-yacht-ics (antibiotics)",
+    "categories": [
+      "Medical",
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-95",
+    "setup": "What does a lumberjack do to pass the time when transporting hard wood?",
+    "punchline": "Carry oak-y",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-96",
+    "setup": "What part of the country is the funniest?",
+    "punchline": "The mountains. They’re hill-arious.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-97",
+    "setup": "Where do you take a person that’s been injured in a peek-a-boo accident?",
+    "punchline": "The I.C.U.",
+    "categories": [
+      "Medical"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-98",
+    "setup": "What did the triangle say to the circle?",
+    "punchline": "You are pointless.",
+    "categories": [
+      "Math"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-99",
+    "setup": "Once my brain fell out and I forgot why I went to the doctor. He reminded me.",
+    "punchline": "",
+    "categories": [
+      "Medical"
+    ],
+    "isMature": true
+  },
+  {
+    "id": "classic-100",
+    "setup": "What piece of clothing does a house wear?",
+    "punchline": "Address.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-101",
+    "setup": "How do you know when your pun is finished?",
+    "punchline": "It’s full groan.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-102",
+    "setup": "Why did the man smear himself with Crisco before bed?",
+    "punchline": "He wanted to wake up oily.",
+    "categories": [],
+    "isMature": false
+  },
+  {
+    "id": "classic-103",
+    "setup": "When does a joke become a daddy joke?",
+    "punchline": "When it becomes apparent.",
+    "categories": [
+      "Dad"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-104",
+    "setup": "What did people say about Mount Rushmore before it was carved?",
+    "punchline": "It’s beauty was unpresidented.",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-105",
+    "setup": "How did the farmer find his lost cow?",
+    "punchline": "He tractor down.",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-106",
+    "setup": "Should I care about Dumbo’s most noticeable trait?",
+    "punchline": "No, it’s irrelevant (ear elephant)",
+    "categories": [
+      "Animal"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-107",
+    "setup": "Why should you always knock on the refrigerator door before opening it?",
+    "punchline": "In case there is a salad dressing in there.",
+    "categories": [
+      "Food"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-108",
+    "setup": "Are mountains funny?",
+    "punchline": "Yes, they’re hill-areas (hilarious)",
+    "categories": [
+      "Puns"
+    ],
+    "isMature": false
+  },
+  {
+    "id": "classic-109",
+    "setup": "Where do sick boats go to get healthy?",
+    "punchline": "To their dock.",
+    "categories": [
+      "Medical"
+    ],
+    "isMature": false
+  }
+]

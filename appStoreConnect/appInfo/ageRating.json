@@ -1,0 +1,18 @@
+{
+  "ageRatingOverrideV2": "NONE",
+  "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+  "contests": "NONE",
+  "gambling": false,
+  "gamblingSimulated": "NONE",
+  "horrorOrFearThemes": "NONE",
+  "koreaAgeRatingOverride": "NONE",
+  "matureOrSuggestiveThemes": "NONE",
+  "medicalOrTreatmentInformation": "NONE",
+  "profanityOrCrudeHumor": "INFREQUENT_OR_MILD",
+  "sexualContentGraphicAndNudity": "NONE",
+  "sexualContentOrNudity": "NONE",
+  "unrestrictedWebAccess": false,
+  "violenceCartoonOrFantasy": "NONE",
+  "violenceRealistic": "NONE",
+  "violenceRealisticProlongedGraphicOrSadistic": "NONE"
+}

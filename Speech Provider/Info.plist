@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>NSExtension</key>
+  <dict>
+    <key>NSExtensionAttributes</key>
+    <dict>
+      <key>AudioComponents</key>
+      <array>
+        <dict>
+          <key>name</key>
+          <string>Dad Jokes: Stage Voices</string>
+          <key>description</key>
+          <string>Offline Piper voices for Dad Jokes Live</string>
+          <key>manufacturer</key>
+          <string>DJks</string>
+          <key>subtype</key>
+          <string>dads</string>
+          <key>type</key>
+          <string>ausp</string>
+          <key>version</key>
+          <integer>65536</integer>
+          <key>sandboxSafe</key>
+          <true/>
+          <key>tags</key>
+          <array>
+            <string>Speech Synthesizer</string>
+          </array>
+        </dict>
+      </array>
+    </dict>
+    <key>NSExtensionPointIdentifier</key>
+    <string>com.apple.AudioUnit</string>
+    <key>NSExtensionPrincipalClass</key>
+    <string>$(PRODUCT_MODULE_NAME).VoiceAudioUnitFactory</string>
+  </dict>
+</dict>
+</plist>

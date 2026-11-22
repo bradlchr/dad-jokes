@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Animal",
+    "image": "tortoise",
+    "color": "Green"
+  },
+  {
+    "name": "Cross the Road",
+    "image": "car",
+    "color": "Gold"
+  },
+  {
+    "name": "Computer",
+    "image": "desktopcomputer",
+    "color": "Midnight"
+  },
+  {
+    "name": "Dad",
+    "image": "mustache",
+    "color": "Dark Gray"
+  },
+  {
+    "name": "Food",
+    "image": "cart",
+    "color": "Green"
+  },
+  {
+    "name": "Favorites",
+    "image": "heart",
+    "color": "Pink2"
+  },
+  {
+    "name": "Holiday",
+    "image": "gift",
+    "color": "Purple"
+  },
+  {
+    "name": "Knock Knock",
+    "image": "house",
+    "color": "Orange"
+  },
+  {
+    "name": "Math",
+    "image": "function",
+    "color": "Light Blue"
+  },
+  {
+    "name": "Medical",
+    "image": "stethoscope",
+    "color": "Pink"
+  },
+  {
+    "name": "One-Liners",
+    "image": "quote.bubble",
+    "color": "Teal"
+  },
+  {
+    "name": "Political",
+    "image": "line.horizontal.star.fill.line.horizontal",
+    "color": "Red"
+  },
+  {
+    "name": "Puns",
+    "image": "face.smiling",
+    "color": "Gold"
+  },
+  {
+    "name": "Science",
+    "image": "eyedropper.halffull",
+    "color": "Dark Blue"
+  },
+  {
+    "name": "Sports",
+    "image": "figure.walk",
+    "color": "Red"
+  },
+  {
+    "name": "Work",
+    "image": "building.2",
+    "color": "Dark Gray"
+  },
+  {
+    "name": "Photography",
+    "image": "camera",
+    "color": "Midnight"
+  }
+]
