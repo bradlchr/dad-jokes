@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dad Jokes — Comedy Stage, Flip Cards & Daily Groaners</title>
+  <meta name="description" content="Dad Jokes Version 2 for iPhone, iPad, Apple Watch, and iPhone Duo. Flip joke cards, audition four dads on the Dad Jokes Live comedy stage, generate illustrations with Image Playground, and share .dadjoke files." />
+  <link rel="canonical" href="https://bradlchr.github.io/dad-jokes/" />
+  <meta name="theme-color" content="#FAF8F5" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#121110" media="(prefers-color-scheme: dark)" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter & Plus Jakarta Sans for warm Apple-native typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'media', // Automatically adapts to system light/dark mode (prefers-color-scheme)
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: [
+              'Inter',
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"SF Pro Display"',
+              '"SF Pro Text"',
+              'system-ui',
+              'sans-serif'
+            ],
+          },
+          colors: {
+            cream: {
+              50: '#FDFCFA',
+              100: '#FAF8F5',
+              200: '#F2EEE7',
+            },
+            stage: {
+              900: '#121110',
+              800: '#1C1C1E',
+              700: '#27272A',
+            },
+            crimsonstage: {
+              500: '#C93B2B',
+              600: '#B03022',
+            },
+            amberwarm: {
+              400: '#E5963E',
+              500: '#D9822B',
+              600: '#B86A1E',
+            }
+          },
+          boxShadow: {
+            'card-light': '0 10px 30px -10px rgba(28, 28, 30, 0.08), 0 1px 3px rgba(28, 28, 30, 0.05)',
+            'card-dark': '0 12px 32px -10px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(255, 255, 255, 0.06)',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Custom subtle utilities for 3D Flip Card interaction & Apple-like glassmorphism */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    /* Smooth accordion transition */
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+    /* Offset scroll targets for sticky header */
+    section[id], div[id] {
+      scroll-margin-top: 5.5rem;
+    }
+  </style>
+</head>
+<body class="bg-cream-100 text-[#1C1C1E] dark:bg-stage-900 dark:text-stone-100 font-sans antialiased selection:bg-[#C93B2B]/20 selection:text-[#C93B2B] dark:selection:text-amber-200">
+
+  <!-- Toast Notification Banner (Replaces alert() for interactive copy/audition feedback) -->
+  <div id="toast" role="status" aria-live="polite" class="fixed bottom-5 right-5 z-50 pointer-events-none opacity-0 translate-y-3 transition-all duration-300 max-w-sm">
+    <div class="flex items-center gap-3 px-4 py-3 rounded-2xl bg-stone-900/95 dark:bg-stone-100/95 text-white dark:text-stone-900 shadow-xl backdrop-blur-md text-sm font-medium">
+      <span id="toast-icon" class="text-amber-400 dark:text-amber-600 text-base">✦</span>
+      <span id="toast-message">Action completed</span>
+    </div>
+  </div>
+
+  <!-- Sticky Translucent Navigation Bar -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-xl bg-cream-100/80 dark:bg-stage-900/80 border-b border-stone-200/70 dark:border-stone-800/80">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand / App Icon -->
+      <a href="#overview" class="flex items-center gap-3 group focus:outline-none">
+        <!-- Custom App Icon Squircle SVG -->
+        <div class="w-10 h-10 rounded-[11px] bg-gradient-to-br from-[#D9822B] via-[#C93B2B] to-rose-700 p-[1px] shadow-sm group-hover:scale-105 transition-transform">
+          <div class="w-full h-full rounded-[10px] bg-gradient-to-br from-[#D9822B] to-[#C93B2B] flex items-center justify-center text-white">
+            <!-- Stage Microphone + Smile Icon -->
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" fill="currentColor" fill-opacity="0.25"/>
+              <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+              <line x1="12" y1="18" x2="12" y2="22" />
+              <line x1="8" y1="22" x2="16" y2="22" />
+            </svg>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="font-bold text-lg tracking-tight">Dad Jokes</span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-[#C93B2B]/10 text-[#C93B2B] dark:bg-amber-400/15 dark:text-amber-300 border border-[#C93B2B]/20 dark:border-amber-400/20">
+            Version 2.0
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav aria-label="Primary Navigation" class="hidden md:flex items-center gap-7 text-sm font-medium text-stone-600 dark:text-stone-300">
+        <a href="#overview" class="hover:text-[#1C1C1E] dark:hover:text-white transition-colors">Overview</a>
+        <a href="#whats-new" class="hover:text-[#1C1C1E] dark:hover:text-white transition-colors">What’s New</a>
+        <a href="#support" class="hover:text-[#1C1C1E] dark:hover:text-white transition-colors">Support</a>
+        <a href="#privacy" class="hover:text-[#1C1C1E] dark:hover:text-white transition-colors">Privacy Policy</a>
+      </nav>
+
+      <!-- Action / App Store Badge Placeholder & Mobile Menu Trigger -->
+      <div class="flex items-center gap-2">
+        <a href="#support" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold bg-[#C93B2B] text-white hover:bg-[#B03022] transition-colors shadow-sm">
+          <span>App Support</span>
+        </a>
+        <button id="mobile-menu-btn" type="button" aria-label="Toggle Menu" aria-expanded="false" class="md:hidden p-2.5 rounded-xl text-stone-700 dark:text-stone-200 hover:bg-stone-200/60 dark:hover:bg-stone-800 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-stone-200/70 dark:border-stone-800 bg-cream-50/95 dark:bg-stage-900/95 backdrop-blur-xl px-4 py-4 space-y-1">
+      <a href="#overview" class="block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-stone-200/50 dark:hover:bg-stone-800">Overview & Features</a>
+      <a href="#whats-new" class="block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-stone-200/50 dark:hover:bg-stone-800">What’s New in v2</a>
+      <a href="#devices" class="block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-stone-200/50 dark:hover:bg-stone-800">iPhone, iPad, Watch & Duo</a>
+      <a href="#support" class="block px-3 py-2.5 rounded-xl text-sm font-medium text-[#C93B2B] dark:text-amber-400 hover:bg-stone-200/50 dark:hover:bg-stone-800">App Store Support</a>
+      <a href="#privacy" class="block px-3 py-2.5 rounded-xl text-sm font-medium hover:bg-stone-200/50 dark:hover:bg-stone-800">Privacy Policy</a>
+    </div>
+  </header>
+
+  <main id="overview">
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-28">
+      <!-- Subtle warm spotlight radial glow -->
+      <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-24 -z-10 flex justify-center overflow-hidden">
+        <div class="w-[54rem] h-[28rem] rounded-full bg-gradient-to-tr from-[#D9822B]/20 via-[#C93B2B]/15 to-rose-300/15 dark:from-amber-500/15 dark:via-[#C93B2B]/15 dark:to-rose-500/10 blur-3xl"></div>
+      </div>
+
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+          
+          <!-- Left Column: Editorial Headline & Core App Description -->
+          <div class="lg:col-span-7 text-center lg:text-left">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-stage-800/90 border border-stone-200/80 dark:border-stone-700/80 shadow-sm text-xs font-semibold text-stone-700 dark:text-stone-300 mb-6">
+              <span class="w-2 h-2 rounded-full bg-[#C93B2B] animate-pulse"></span>
+              <span>Version 2.0 Now Available • Built for iOS, iPadOS, watchOS & iPhone Duo</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-[#1C1C1E] dark:text-white leading-[1.1]">
+              Some jokes are too good to keep to yourself.
+            </h1>
+
+            <p class="mt-6 text-lg sm:text-xl text-stone-600 dark:text-stone-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              <strong class="font-semibold text-stone-900 dark:text-white">Dad Jokes</strong> is a home for your favorite puns, groaners, and one-liners. Start with a daily joke, discover fresh picks online, or build a collection of your own—now with its own comedy stage.
+            </p>
+
+            <!-- Primary & Quick Jump CTAs -->
+            <div class="mt-8 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5">
+              <!-- App Store Download Button Placeholder -->
+              <a href="#whats-new" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-2xl bg-[#1C1C1E] dark:bg-white text-white dark:text-[#1C1C1E] font-semibold text-sm shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all">
+                <!-- Apple Logo SVG -->
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.96 6.33c.67-.81 1.12-1.94 1-3.08-.96.04-2.13.64-2.82 1.45-.61.7-.115 1.85-1.01 2.96 1.07.08 2.16-.52 2.83-1.33z"/>
+                </svg>
+                <span>Explore Version 2</span>
+              </a>
+
+              <a href="#support" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white dark:bg-stage-800 text-[#1C1C1E] dark:text-stone-200 border border-stone-200/90 dark:border-stone-700 font-semibold text-sm hover:bg-stone-50 dark:hover:bg-stage-700 transition-colors">
+                <span>Support & FAQ</span>
+              </a>
+
+              <a href="#privacy" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl text-stone-600 dark:text-stone-400 hover:text-[#1C1C1E] dark:hover:text-white font-medium text-sm transition-colors">
+                <span>Privacy Policy</span>
+              </a>
+            </div>
+
+            <!-- Quick Platform Trust Strip -->
+            <div class="mt-8 pt-6 border-t border-stone-200/70 dark:border-stone-800/80 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-xs font-medium text-stone-500 dark:text-stone-400">
+              <span class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                On-Device Apple Intelligence
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                Zero Ads or Trackers
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                .dadjoke File Sharing
+              </span>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Flip Card & Dad Jokes Live Stage Preview -->
+          <div class="lg:col-span-5">
+            <div class="max-w-md mx-auto">
+              <!-- Interactive 3D Flip Card -->
+              <div class="perspective-1000">
+                <div id="demo-flip-card" role="button" tabindex="0" aria-label="Interactive Joke Flip Card. Tap or press Enter to flip between setup and punchline." class="relative w-full h-80 cursor-pointer transition-transform duration-700 transform-style-3d select-none">
+                  
+                  <!-- Card Front (Setup) -->
+                  <div class="absolute inset-0 backface-hidden rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80 shadow-card-light dark:shadow-card-dark p-7 flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#D9822B]/15 text-[#B86A1E] dark:bg-amber-500/20 dark:text-amber-300">
+                        <span>✦</span>
+                        <span id="demo-category">Classic Pun</span>
+                      </span>
+                      <span class="text-xs font-medium text-stone-400 dark:text-stone-500 flex items-center gap-1">
+                        Tap card to flip
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
+                      </span>
+                    </div>
+
+                    <div class="my-auto py-4">
+                      <p id="demo-setup" class="text-2xl font-bold tracking-tight text-[#1C1C1E] dark:text-white leading-snug">
+                        “Why don’t skeletons ever go trick-or-treating?”
+                      </p>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-3 border-t border-stone-100 dark:border-stone-700/60 text-xs text-stone-500 dark:text-stone-400">
+                      <span>Image Playground Ready</span>
+                      <span class="font-semibold text-[#C93B2B] dark:text-amber-400">Reveal Punchline →</span>
+                    </div>
+                  </div>
+
+                  <!-- Card Back (Punchline) -->
+                  <div class="absolute inset-0 backface-hidden rotate-y-180 rounded-3xl bg-gradient-to-br from-[#C93B2B] via-[#B8472A] to-[#D9822B] text-white shadow-card-light dark:shadow-card-dark p-7 flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-sm text-white">
+                        <span>🎤</span>
+                        <span>Punchline</span>
+                      </span>
+                      <span class="text-xs font-medium text-white/80">Tap to flip back</span>
+                    </div>
+
+                    <div class="my-auto py-4">
+                      <p id="demo-punchline" class="text-2xl font-extrabold tracking-tight leading-snug">
+                        “Because they have no body to go with!”
+                      </p>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-3 border-t border-white/20 text-xs text-white/90">
+                      <span id="demo-dad-tag">Delivered by: Classic Grill Dad</span>
+                      <span class="font-semibold">🥁 Ba-dum-tss!</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Interactive Mini Stage Controls (Audition Four Dads & Next Joke) -->
+              <div class="mt-4 p-4 rounded-2xl bg-white/95 dark:bg-stage-800/90 border border-stone-200/80 dark:border-stone-700/80 shadow-sm">
+                <div class="flex items-center justify-between mb-2.5">
+                  <span class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
+                    Dad Jokes Live • Audition 4 Dads
+                  </span>
+                  <button id="next-joke-btn" type="button" class="text-xs font-semibold text-[#C93B2B] dark:text-amber-400 hover:underline">
+                    Next Joke ↻
+                  </button>
+                </div>
+                <div class="grid grid-cols-4 gap-2" role="group" aria-label="Select a Dad performer">
+                  <button type="button" data-dad="Classic Grill Dad" class="dad-pill active px-2 py-2 rounded-xl text-xs font-semibold bg-[#C93B2B] text-white shadow-sm transition-all">
+                    🍔 Grill
+                  </button>
+                  <button type="button" data-dad="Professor Pun" class="dad-pill px-2 py-2 rounded-xl text-xs font-semibold bg-stone-100 dark:bg-stage-700 text-stone-700 dark:text-stone-300 hover:bg-stone-200/70 dark:hover:bg-stone-600 transition-all">
+                    👓 Prof
+                  </button>
+                  <button type="button" data-dad="Coach Groaner" class="dad-pill px-2 py-2 rounded-xl text-xs font-semibold bg-stone-100 dark:bg-stage-700 text-stone-700 dark:text-stone-300 hover:bg-stone-200/70 dark:hover:bg-stone-600 transition-all">
+                    📣 Coach
+                  </button>
+                  <button type="button" data-dad="Random Lineup" class="dad-pill px-2 py-2 rounded-xl text-xs font-semibold bg-stone-100 dark:bg-stage-700 text-stone-700 dark:text-stone-300 hover:bg-stone-200/70 dark:hover:bg-stone-600 transition-all">
+                    🎲 Mix
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CORE FEATURES SECTION -->
+    <section id="features" class="py-16 sm:py-24 border-t border-stone-200/70 dark:border-stone-800/80 bg-white/60 dark:bg-stage-800/30">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl">
+          <p class="text-xs font-bold uppercase tracking-widest text-[#C93B2B] dark:text-amber-400">Everything in Dad Jokes</p>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1C1C1E] dark:text-white">
+            Your jokes, organized and ready for the spotlight.
+          </h2>
+          <p class="mt-3 text-base sm:text-lg text-stone-600 dark:text-stone-300">
+            Whether you’re saving your own wordplay or grabbing a daily groaner online, every card is crafted for quick laughs and effortless sharing.
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Feature 1: Flip Cards & Library -->
+          <article class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-card-light dark:shadow-card-dark flex flex-col justify-between">
+            <div>
+              <div class="w-11 h-11 rounded-2xl bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center text-xl mb-5">
+                🃏
+              </div>
+              <h3 class="text-lg font-bold text-stone-900 dark:text-white">Flip Cards & Updated Library</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
+                Flip a joke card to reveal the punchline. Search by wording or category, browse illustrated categories, and favorite the jokes you want to keep close.
+              </p>
+            </div>
+          </article>
+
+          <!-- Feature 2: Dad Jokes Live -->
+          <article class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-card-light dark:shadow-card-dark flex flex-col justify-between">
+            <div>
+              <div class="w-11 h-11 rounded-2xl bg-orange-500/15 text-orange-600 dark:text-orange-400 flex items-center justify-center text-xl mb-5">
+                🎙️
+              </div>
+              <h3 class="text-lg font-bold text-stone-900 dark:text-white">Dad Jokes Live Comedy Stage</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
+                Take any joke to the stage. Swipe through four distinct dads, audition their voices, and pick your favorite performer or keep the lineup random.
+              </p>
+            </div>
+          </article>
+
+          <!-- Feature 3: .dadjoke Files -->
+          <article class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-card-light dark:shadow-card-dark flex flex-col justify-between">
+            <div>
+              <div class="w-11 h-11 rounded-2xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center text-xl mb-5">
+                📦
+              </div>
+              <h3 class="text-lg font-bold text-stone-900 dark:text-white">Share Text or .dadjoke Files</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
+                Share a joke as plain text anywhere, or send a custom <code class="px-1.5 py-0.5 rounded bg-stone-100 dark:bg-stage-700 text-xs font-mono">.dadjoke</code> file. Friends with the app can open it right on the comedy stage.
+              </p>
+            </div>
+          </article>
+
+          <!-- Feature 4: Apple Intelligence -->
+          <article class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-card-light dark:shadow-card-dark flex flex-col justify-between">
+            <div>
+              <div class="w-11 h-11 rounded-2xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl mb-5">
+                ✨
+              </div>
+              <h3 class="text-lg font-bold text-stone-900 dark:text-white">Apple Intelligence Spoken Polish</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
+                On supported devices, Apple Intelligence prepares jokes for natural spoken delivery completely on-device—while keeping the exact words you wrote on the card.
+              </p>
+            </div>
+          </article>
+
+          <!-- Feature 5: Image Playground -->
+          <article class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-card-light dark:shadow-card-dark flex flex-col justify-between">
+            <div>
+              <div class="w-11 h-11 rounded-2xl bg-purple-500/15 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl mb-5">
+                🎨
+              </div>
+              <h3 class="text-lg font-bold text-stone-900 dark:text-white">Image Playground Illustrations</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
+                Create custom cartoon illustrations for your joke cards with Apple’s Image Playground on supported devices—bringing your best puns to life visually.
+              </p>
+            </div>
+          </article>
+
+          <!-- Feature 6: Today & icanhazdadjoke -->
+          <article class="p-6 sm:p-7 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-card-light dark:shadow-card-dark flex flex-col justify-between">
+            <div>
+              <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl mb-5">
+                🌐
+              </div>
+              <h3 class="text-lg font-bold text-stone-900 dark:text-white">Daily Picks & Online Discovery</h3>
+              <p class="mt-2.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
+                Discover fresh online jokes right from Today and save the ones you like to your Library. Online jokes are powered by <a href="https://icanhazdadjoke.com" target="_blank" rel="noopener noreferrer" class="underline decoration-amber-500/60 hover:text-amber-600 dark:hover:text-amber-400">icanhazdadjoke</a>.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT'S NEW IN VERSION 2 SECTION -->
+    <section id="whats-new" class="py-16 sm:py-24 border-t border-stone-200/70 dark:border-stone-800/80">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-3xl bg-gradient-to-br from-stone-900 via-stone-900 to-stone-800 dark:from-stage-800 dark:via-stage-800 dark:to-stone-900 text-white p-8 sm:p-12 shadow-xl border border-stone-700/60">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-8 border-b border-white/10">
+            <div>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-400 text-stone-950">
+                Release Notes • Version 2.0
+              </span>
+              <h2 class="mt-3 text-2xl sm:text-3xl font-extrabold tracking-tight">
+                Dad Jokes has a new look and its own comedy stage.
+              </h2>
+            </div>
+          </div>
+
+          <ul class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5 text-sm sm:text-base text-stone-200">
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-xs font-bold">✓</span>
+              <span>Find your saved jokes in the updated <strong>Library</strong>, with flip cards, illustrated categories, favorites, and search.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-xs font-bold">✓</span>
+              <span>Play jokes on stage in <strong>Dad Jokes Live</strong>, audition four different dads, and select your favorite or keep it random.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-xs font-bold">✓</span>
+              <span>Discover online jokes from <strong>Today</strong> and save the ones you like directly into your personal collection.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-xs font-bold">✓</span>
+              <span>Let <strong>Apple Intelligence</strong> polish spoken delivery on supported devices while your written jokes stay exactly as entered.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-xs font-bold">✓</span>
+              <span>Share <code class="px-1.5 py-0.5 rounded bg-white/10 text-amber-200 font-mono text-xs">.dadjoke</code> files that open right on the comedy stage on a friend’s device.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-xs font-bold">✓</span>
+              <span>Illustrate joke cards with <strong>Image Playground</strong> on supported devices.</span>
+            </li>
+            <li class="flex items-start gap-3 md:col-span-2">
+              <span class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-amber-400/20 text-amber-300 flex items-center justify-center text-xs font-bold">✓</span>
+              <span>Enjoy a tailored two-column <strong>Settings</strong> layout on iPad and adaptive layouts designed around the <strong>iPhone Duo</strong> fold.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MULTI-DEVICE ECOSYSTEM SECTION -->
+    <section id="devices" class="py-16 sm:py-20 border-t border-stone-200/70 dark:border-stone-800/80 bg-white/60 dark:bg-stage-800/30">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto">
+          <p class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Designed for Every Screen</p>
+          <h2 class="mt-2 text-3xl font-extrabold tracking-tight text-stone-900 dark:text-white">
+            From your wrist to the foldable stage.
+          </h2>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="p-6 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-sm">
+            <div class="text-2xl mb-3">📱</div>
+            <h3 class="font-bold text-base text-stone-900 dark:text-white">iPhone & Widgets</h3>
+            <p class="mt-2 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              Put a daily joke right on your Home Screen with interactive widgets, or jump straight into Dad Jokes Live.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-sm">
+            <div class="text-2xl mb-3">📖</div>
+            <h3 class="font-bold text-base text-stone-900 dark:text-white">iPhone Duo Fold-Aware</h3>
+            <p class="mt-2 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              On iPhone Duo, both Today and the comedy stage intelligently adapt around the center fold for an unobstructed view.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-sm">
+            <div class="text-2xl mb-3">🖥️</div>
+            <h3 class="font-bold text-base text-stone-900 dark:text-white">iPadOS Two-Column UI</h3>
+            <p class="mt-2 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              Expansive card grids, illustrated categories, and a clean two-column Settings layout tailored for iPad displays.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/80 dark:border-stone-700/70 shadow-sm">
+            <div class="text-2xl mb-3">⌚</div>
+            <h3 class="font-bold text-base text-stone-900 dark:text-white">Apple Watch App</h3>
+            <p class="mt-2 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              Enjoy a quick laugh right from your wrist whenever an awkward silence needs saving.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP STORE SUPPORT SECTION (#support) -->
+    <section id="support" class="py-16 sm:py-24 border-t border-stone-200/70 dark:border-stone-800/80">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#C93B2B]/10 text-[#C93B2B] dark:bg-amber-400/15 dark:text-amber-300">
+              App Store Support
+            </span>
+            <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1C1C1E] dark:text-white">
+              Need a hand with Dad Jokes?
+            </h2>
+            <p class="mt-2 text-base text-stone-600 dark:text-stone-300">
+              Browse common questions about Version 2 features below, or reach out directly for support, bug reports, or feedback.
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive FAQ Accordion -->
+        <div class="space-y-3.5">
+          <details class="group rounded-2xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80 p-5 shadow-sm" open>
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-stone-900 dark:text-white list-none">
+              <span>How do I audition and choose a performer on Dad Jokes Live?</span>
+              <span class="ml-4 flex-shrink-0 w-7 h-7 rounded-full bg-stone-100 dark:bg-stage-700 flex items-center justify-center text-stone-500 group-open:rotate-180 transition-transform">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+              </span>
+            </summary>
+            <p class="mt-3 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              Open any joke from Today or your Library and tap the <strong>Stage</strong> button to launch <strong>Dad Jokes Live</strong>. Swipe horizontally across the stage to audition the four different dads and hear their voices. You can lock in your favorite performer or set the lineup to <strong>Random</strong> so a surprise dad takes the mic each time.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80 p-5 shadow-sm">
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-stone-900 dark:text-white list-none">
+              <span>How do .dadjoke files work when sharing with friends?</span>
+              <span class="ml-4 flex-shrink-0 w-7 h-7 rounded-full bg-stone-100 dark:bg-stage-700 flex items-center justify-center text-stone-500 group-open:rotate-180 transition-transform">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+              </span>
+            </summary>
+            <p class="mt-3 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              Tap <strong>Share</strong> on any joke card and choose <strong>Share as .dadjoke File</strong> (via Messages, AirDrop, Mail, or Files). When a friend with Dad Jokes Version 2 taps the <code class="px-1.5 py-0.5 rounded bg-stone-100 dark:bg-stage-700 font-mono text-xs">.dadjoke</code> file, it opens directly onto their comedy stage ready to perform and save.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80 p-5 shadow-sm">
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-stone-900 dark:text-white list-none">
+              <span>Which devices support Apple Intelligence spoken polish and Image Playground?</span>
+              <span class="ml-4 flex-shrink-0 w-7 h-7 rounded-full bg-stone-100 dark:bg-stage-700 flex items-center justify-center text-stone-500 group-open:rotate-180 transition-transform">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+              </span>
+            </summary>
+            <p class="mt-3 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              Spoken delivery polish and cartoon card illustrations use Apple’s native <strong>Apple Intelligence</strong> and <strong>Image Playground</strong> frameworks. These features automatically appear on Apple devices that support Apple Intelligence with it enabled in system Settings. All processing happens on-device, and your original written text on the card is never altered.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80 p-5 shadow-sm">
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-stone-900 dark:text-white list-none">
+              <span>How do I add a Home Screen widget or use Dad Jokes on Apple Watch?</span>
+              <span class="ml-4 flex-shrink-0 w-7 h-7 rounded-full bg-stone-100 dark:bg-stage-700 flex items-center justify-center text-stone-500 group-open:rotate-180 transition-transform">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+              </span>
+            </summary>
+            <p class="mt-3 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              Touch and hold an empty area on your iPhone or iPad Home Screen, tap <strong>Edit → Add Widget</strong>, and search for <strong>Dad Jokes</strong> to place a daily joke card on your screen. On Apple Watch, open the Watch app on your iPhone to install Dad Jokes onto your wrist for instant access to your daily pick and favorites.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80 p-5 shadow-sm">
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-stone-900 dark:text-white list-none">
+              <span>Where do online jokes come from?</span>
+              <span class="ml-4 flex-shrink-0 w-7 h-7 rounded-full bg-stone-100 dark:bg-stage-700 flex items-center justify-center text-stone-500 group-open:rotate-180 transition-transform">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg>
+              </span>
+            </summary>
+            <p class="mt-3 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              When you browse fresh online picks in the <strong>Today</strong> tab, Dad Jokes fetches jokes from the public <a href="https://icanhazdadjoke.com" target="_blank" rel="noopener noreferrer" class="underline text-amber-700 dark:text-amber-400">icanhazdadjoke</a> service. You can save any online joke to your personal Library for offline viewing anytime.
+            </p>
+          </details>
+        </div>
+
+        <!-- Direct Support Contact Card -->
+        <div class="mt-8 p-6 sm:p-8 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80 shadow-card-light dark:shadow-card-dark flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div>
+            <h3 class="text-lg font-bold text-[#1C1C1E] dark:text-white">Contact Developer Support</h3>
+            <p class="mt-1 text-sm text-stone-600 dark:text-stone-300">
+              Have a question, found a bug, or want to share your best pun? Email us directly and include your device model and iOS/iPadOS/watchOS version if reporting an issue.
+            </p>
+            <p class="mt-2 text-xs font-mono text-stone-600 dark:text-stone-400" id="support-email-display">
+              mimikmeapps@gmail.com
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+            <a href="mailto:mimikmeapps@gmail.com?subject=Dad%20Jokes%20v2%20Support" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#C93B2B] hover:bg-[#B03022] text-white font-semibold text-sm shadow-sm transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+              <span>Email Support</span>
+            </a>
+            <button id="copy-email-btn" type="button" class="px-4 py-3 rounded-2xl bg-stone-100 dark:bg-stage-700 hover:bg-stone-200 dark:hover:bg-stone-600 text-stone-800 dark:text-stone-200 font-semibold text-sm transition-colors">
+              Copy Email
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIVACY POLICY SECTION (#privacy) -->
+    <section id="privacy" class="py-16 sm:py-24 border-t border-stone-200/70 dark:border-stone-800/80 bg-white/70 dark:bg-stage-800/40">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-800 dark:bg-emerald-400/15 dark:text-emerald-300">
+            Privacy Policy
+          </span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1C1C1E] dark:text-white">
+            Privacy Policy for Dad Jokes
+          </h2>
+          <p class="mt-2 text-sm text-stone-500 dark:text-stone-400">
+            Effective Date: November 22, 2026 • Applies to Dad Jokes (Version 2 and later) for iOS, iPadOS, watchOS, and iPhone Duo
+          </p>
+        </div>
+
+        <!-- Privacy Highlights Summary Box (Apple App Store Nutrition Label Style) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+          <div class="p-5 rounded-2xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80">
+            <div class="text-emerald-600 dark:text-emerald-400 font-bold text-sm flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+              <span>Data Not Collected</span>
+            </div>
+            <p class="mt-1.5 text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+              We do not operate developer servers that collect, store, or sell your personal information or joke library.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80">
+            <div class="text-emerald-600 dark:text-emerald-400 font-bold text-sm flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+              <span>100% On-Device AI</span>
+            </div>
+            <p class="mt-1.5 text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+              Apple Intelligence spoken delivery and Image Playground illustrations are processed entirely on your Apple device.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80">
+            <div class="text-emerald-600 dark:text-emerald-400 font-bold text-sm flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+              <span>No Ads or Trackers</span>
+            </div>
+            <p class="mt-1.5 text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+              Dad Jokes contains zero third-party advertising SDKs, behavioral analytics, or cross-app tracking.
+            </p>
+          </div>
+        </div>
+
+        <!-- Detailed Policy Clauses -->
+        <div class="p-6 sm:p-9 rounded-3xl bg-white dark:bg-stage-800 border border-stone-200/90 dark:border-stone-700/80 shadow-sm space-y-6 text-sm sm:text-[15px] leading-relaxed text-stone-700 dark:text-stone-300">
+          
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-stone-900 dark:text-white mb-2">1. Overview</h3>
+            <p>
+              Your privacy is fundamental to the design of <strong>Dad Jokes</strong>. We believe telling and collecting jokes should never require surrendering personal data. Dad Jokes does not require account registration, does not track you across apps or websites, and does not transmit your personal joke library to developer-controlled servers.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-stone-900 dark:text-white mb-2">2. Local Storage & Apple iCloud Sync</h3>
+            <p>
+              The jokes you write, favorite, categorize, or illustrate—along with your stage preferences (such as your preferred Dad performer)—are stored locally on your device. If you have iCloud enabled on your Apple ID, Apple’s private iCloud infrastructure may securely synchronize your Dad Jokes library and preferences across your personal iPhone, iPad, Apple Watch, and iPhone Duo devices. We have no access to your private iCloud container or its contents.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-stone-900 dark:text-white mb-2">3. On-Device Apple Intelligence & Image Playground</h3>
+            <p>
+              On supported Apple devices, Dad Jokes integrates with system-provided <strong>Apple Intelligence</strong> (to polish spoken delivery for Dad Jokes Live) and <strong>Image Playground</strong> (to generate cartoon card illustrations). All text analysis and image generation occur strictly on-device using Apple’s native frameworks. Your jokes and prompts are never sent to our servers or third-party AI providers.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-stone-900 dark:text-white mb-2">4. Online Jokes via icanhazdadjoke</h3>
+            <p>
+              When you choose to discover online jokes in the <strong>Today</strong> section, the app makes a direct, read-only HTTPS request to the public <a href="https://icanhazdadjoke.com" target="_blank" rel="noopener noreferrer" class="underline text-amber-700 dark:text-amber-400">icanhazdadjoke.com</a> API to retrieve joke text. No account credentials, personal identifiers, location data, or user-created jokes are sent with these requests. Use of online joke fetching is completely optional; your saved Library works fully offline.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-stone-900 dark:text-white mb-2">5. Sharing & .dadjoke Files</h3>
+            <p>
+              When you share a joke as text or export a <code class="px-1.5 py-0.5 rounded bg-stone-100 dark:bg-stage-700 font-mono text-xs">.dadjoke</code> file, sharing is handled directly by the standard Apple Share Sheet (such as Messages, Mail, or AirDrop) to the recipients you explicitly select.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-stone-900 dark:text-white mb-2">6. Analytics, Advertising & Third-Party SDKs</h3>
+            <p>
+              Dad Jokes contains <strong>no</strong> third-party advertising networks, marketing SDKs, or external analytics trackers. If you have opted in to share crash logs and diagnostics with app developers in your iOS/iPadOS Settings, Apple may provide anonymized, aggregated crash reports through App Store Connect solely to help us improve app stability.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-stone-900 dark:text-white mb-2">7. Children’s Privacy</h3>
+            <p>
+              Dad Jokes is a family-friendly application and does not knowingly collect personal information from anyone, including children under the age of 13.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-[#1C1C1E] dark:text-white mb-2">8. Changes & Contact</h3>
+            <p>
+              If we update this Privacy Policy in a future release, the revised version will be posted at <a href="https://bradlchr.github.io/dad-jokes/#privacy" class="underline text-[#C93B2B] dark:text-amber-400">https://bradlchr.github.io/dad-jokes/#privacy</a> with an updated effective date. For any privacy questions, please contact us at <a href="mailto:mimikmeapps@gmail.com?subject=Dad%20Jokes%20Privacy%20Inquiry" class="underline text-[#C93B2B] dark:text-amber-400">mimikmeapps@gmail.com</a>.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-stone-200/80 dark:border-stone-800 py-10 bg-cream-100 dark:bg-stage-900 text-xs text-stone-500 dark:text-stone-400">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+        <span class="font-bold text-[#1C1C1E] dark:text-stone-200">© 2026 Dad Jokes</span>
+        <span>•</span>
+        <span>Version 2.0</span>
+        <span>•</span>
+        <span>Online jokes provided by <a href="https://icanhazdadjoke.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#1C1C1E] dark:hover:text-stone-200">icanhazdadjoke</a></span>
+      </div>
+
+      <div class="flex items-center gap-6 font-medium">
+        <a href="#overview" class="hover:text-[#1C1C1E] dark:hover:text-white transition-colors">Overview</a>
+        <a href="#whats-new" class="hover:text-[#1C1C1E] dark:hover:text-white transition-colors">What’s New</a>
+        <a href="#support" class="hover:text-[#1C1C1E] dark:hover:text-white transition-colors">Support</a>
+        <a href="#privacy" class="hover:text-[#1C1C1E] dark:hover:text-white transition-colors">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive JavaScript (Flip Card, Dad Audition Switcher, Mobile Menu, Clipboard Copy) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Sample Jokes Data for Interactive Hero Flip Card
+      const sampleJokes = [
+        {
+          category: 'Classic Pun',
+          setup: '“Why don’t skeletons ever go trick-or-treating?”',
+          punchline: '“Because they have no body to go with!”'
+        },
+        {
+          category: 'Kitchen Groaner',
+          setup: '“What do you call a fake noodle?”',
+          punchline: '“An impasta!”'
+        },
+        {
+          category: 'Science & Tech',
+          setup: '“Why can’t you trust an atom?”',
+          punchline: '“Because they make up literally everything!”'
+        },
+        {
+          category: 'Outdoors',
+          setup: '“Why did the scarecrow win an award?”',
+          punchline: '“Because he was outstanding in his field!”'
+        }
+      ];
+
+      let currentJokeIndex = 0;
+      let isFlipped = false;
+      let selectedDad = 'Classic Grill Dad';
+
+      const flipCard = document.getElementById('demo-flip-card');
+      const categoryEl = document.getElementById('demo-category');
+      const setupEl = document.getElementById('demo-setup');
+      const punchlineEl = document.getElementById('demo-punchline');
+      const dadTagEl = document.getElementById('demo-dad-tag');
+      const nextJokeBtn = document.getElementById('next-joke-btn');
+      const dadPills = document.querySelectorAll('.dad-pill');
+
+      // Toast helper (non-blocking UI feedback)
+      let toastTimeout;
+      function showToast(message, icon = '✦') {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-message');
+        const toastIcon = document.getElementById('toast-icon');
+        toastMsg.textContent = message;
+        toastIcon.textContent = icon;
+        toast.classList.remove('opacity-0', 'translate-y-3');
+        toast.classList.add('opacity-100', 'translate-y-0');
+
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.classList.remove('opacity-100', 'translate-y-0');
+          toast.classList.add('opacity-0', 'translate-y-3');
+        }, 2600);
+      }
+
+      // Flip Card toggle
+      function toggleFlip() {
+        isFlipped = !isFlipped;
+        if (isFlipped) {
+          flipCard.classList.add('rotate-y-180');
+        } else {
+          flipCard.classList.remove('rotate-y-180');
+        }
+      }
+
+      flipCard.addEventListener('click', toggleFlip);
+      flipCard.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleFlip();
+        }
+      });
+
+      // Cycle to Next Sample Joke
+      nextJokeBtn.addEventListener('click', () => {
+        currentJokeIndex = (currentJokeIndex + 1) % sampleJokes.length;
+        const joke = sampleJokes[currentJokeIndex];
+
+        if (isFlipped) {
+          isFlipped = false;
+          flipCard.classList.remove('rotate-y-180');
+          setTimeout(() => {
+            categoryEl.textContent = joke.category;
+            setupEl.textContent = joke.setup;
+            punchlineEl.textContent = joke.punchline;
+          }, 220);
+        } else {
+          categoryEl.textContent = joke.category;
+          setupEl.textContent = joke.setup;
+          punchlineEl.textContent = joke.punchline;
+        }
+      });
+
+      // Audition Four Dads Selector
+      dadPills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          dadPills.forEach((btn) => {
+            btn.classList.remove('bg-[#C93B2B]', 'text-white', 'shadow-sm');
+            btn.classList.add('bg-stone-100', 'dark:bg-stage-700', 'text-stone-700', 'dark:text-stone-300');
+          });
+          pill.classList.remove('bg-stone-100', 'dark:bg-stage-700', 'text-stone-700', 'dark:text-stone-300');
+          pill.classList.add('bg-[#C93B2B]', 'text-white', 'shadow-sm');
+
+          selectedDad = pill.getAttribute('data-dad');
+          dadTagEl.textContent = `Delivered by: ${selectedDad}`;
+          showToast(`Stage performer set to ${selectedDad}`, '🎙️');
+        });
+      });
+
+      // 2. Mobile Menu Toggle
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      mobileMenuBtn.addEventListener('click', () => {
+        const isHidden = mobileMenu.classList.contains('hidden');
+        mobileMenu.classList.toggle('hidden');
+        mobileMenuBtn.setAttribute('aria-expanded', String(isHidden));
+      });
+
+      mobileMenu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // 3. Copy Support Email to Clipboard (using execCommand fallback for universal compatibility)
+      const copyEmailBtn = document.getElementById('copy-email-btn');
+      const supportEmailText = document.getElementById('support-email-display').textContent.trim();
+
+      copyEmailBtn.addEventListener('click', () => {
+        const tempInput = document.createElement('textarea');
+        tempInput.value = supportEmailText;
+        tempInput.setAttribute('readonly', '');
+        tempInput.style.position = 'absolute';
+        tempInput.style.left = '-9999px';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        try {
+          document.execCommand('copy');
+          showToast('Support email copied to clipboard', '📋');
+        } catch (err) {
+          showToast('Email: ' + supportEmailText, '✉️');
+        }
+        document.body.removeChild(tempInput);
+      });
+    });
+  </script>
+</body>
+</html>
