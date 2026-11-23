@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="12" fill="#DDEDFB"/>
+  <g stroke="#35698E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path fill="#81B9DC" fill-rule="evenodd" d="M11 22L10 10L20 16H28L38 10L37 22Q41 35 24 38Q7 35 11 22Z"/>
+    <path fill="none" fill-rule="evenodd" d="M17 25h1m12 0h1m-9 4h4l-2 2m0 0q-2 4-5 1m5-1q2 4 5 1M9 27l5 2m-5 3l5-1m25-4l-5 2m5 3l-5-1"/>
+  </g>
+</svg>

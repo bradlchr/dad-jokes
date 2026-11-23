@@ -5,6 +5,8 @@ struct JokeGallery: View {
   var library: JokeLibrary
   var heading: String
   var showOnStage: (Joke, StagePlayback) -> Void
+  var allowsReordering = false
+  var sort: LibrarySort?
 
   @Environment(\.dynamicTypeSize) private var typeSize
   @Environment(\.layoutDirection) private var layoutDirection
@@ -27,9 +29,7 @@ struct JokeGallery: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 14) {
         HStack(alignment: .firstTextBaseline, spacing: 12) {
-          Text(heading)
-            .font(.system(.title2, design: .serif).weight(.bold))
-            .accessibilityAddTraits(.isHeader)
+          JokeGalleryHeading(title: heading, sort: sort)
           Spacer(minLength: 0)
           Text(jokes.count, format: .number)
             .font(.subheadline.monospacedDigit())
@@ -37,11 +37,15 @@ struct JokeGallery: View {
             .accessibilityLabel(Text("\(jokes.count) jokes"))
         }
         .frame(maxWidth: columns.headingWidth, alignment: .leading)
-        LazyVStack(spacing: Self.spacing) {
-          ForEach(rows) { row in
-            JokeTileRowLayout(columns: columns, direction: layoutDirection) {
-              ForEach(row.jokes) { joke in
-                tile(joke)
+        if allowsReordering {
+          manualGrid
+        } else {
+          LazyVStack(spacing: Self.spacing) {
+            ForEach(rows) { row in
+              JokeTileRowLayout(columns: columns, direction: layoutDirection) {
+                ForEach(row.jokes) { joke in
+                  tile(joke)
+                }
               }
             }
           }
@@ -79,6 +83,50 @@ struct JokeGallery: View {
     }
   }
 
+  @ViewBuilder
+  private var manualGrid: some View {
+    let count = columns.headingWidth == nil ? columns.tiles.count : 1
+    let items = Array(repeating: GridItem(.flexible(minimum: 0), spacing: Self.spacing), count: count)
+    Group {
+      if #available(iOS 27.0, macOS 27.0, *) {
+        LazyVGrid(columns: items, spacing: Self.spacing) {
+          ForEach(jokes) { joke in
+            tile(joke)
+          }
+          .reorderable()
+        }
+        .reorderContainer(for: Joke.self) { difference in
+          let sources = Set(difference.sources)
+          var order = jokes.map(\.id)
+          let moved = order.filter { sources.contains($0) }
+          order.removeAll { sources.contains($0) }
+          switch difference.destination.position {
+          case .before(let id):
+            guard let index = order.firstIndex(of: id) else { return }
+            order.insert(contentsOf: moved, at: index)
+          case .end:
+            order.append(contentsOf: moved)
+          }
+          library.saveManualOrder(order)
+        }
+      } else {
+        LazyVGrid(columns: items, spacing: Self.spacing) {
+          ForEach(jokes) { joke in
+            tile(joke)
+          }
+        }
+      }
+    }
+    .frame(maxWidth: columns.headingWidth, alignment: .leading)
+  }
+
+  private func move(_ joke: Joke, by offset: Int) {
+    var order = jokes.map(\.id)
+    guard let index = order.firstIndex(of: joke.id), order.indices.contains(index + offset) else { return }
+    order.swapAt(index, index + offset)
+    library.saveManualOrder(order)
+  }
+
   private func tile(_ joke: Joke) -> some View {
     JokeTile(joke: joke, isFavorite: library.isFavorite(joke), revealed: Binding(
       get: { revealedIDs.contains(joke.id) },
@@ -95,6 +143,13 @@ struct JokeGallery: View {
       Button("Play on Stage", systemImage: "theatermasks") { showOnStage(joke, .manual) }
       Menu("Share", systemImage: "square.and.arrow.up") {
         JokeShareOptions(joke: joke)
+      }
+      if allowsReordering {
+        Divider()
+        Button("Move Earlier", systemImage: "arrow.up") { move(joke, by: -1) }
+          .disabled(joke.id == jokes.first?.id)
+        Button("Move Later", systemImage: "arrow.down") { move(joke, by: 1) }
+          .disabled(joke.id == jokes.last?.id)
       }
       Divider()
       Button("Delete Joke", systemImage: "trash", role: .destructive) { deletion = joke }

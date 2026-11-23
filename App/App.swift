@@ -13,7 +13,11 @@ struct DadJokesApp: App {
     mainWindow
     #if os(macOS)
     Settings {
-      PreferencesView(library: library, theme: $theme)
+      NavigationStack {
+        PreferencesView(library: library, theme: $theme)
+      }
+        .environment(\.categoryIcons, library.archive.categoryIcons ?? [:])
+        .environment(\.originalCategoryNames, library.originalCategoryNames)
         .tint(theme.accent)
         .frame(minWidth: 460, idealWidth: 500, minHeight: 420, idealHeight: 475)
     }
@@ -23,6 +27,8 @@ struct DadJokesApp: App {
   private var mainWindow: some Scene {
     WindowGroup {
       ContentView(library: library)
+        .environment(\.categoryIcons, library.archive.categoryIcons ?? [:])
+        .environment(\.originalCategoryNames, library.originalCategoryNames)
         .task { AVSpeechSynthesisProviderVoice.updateSpeechVoices() }
         .task {
           await library.recoverOriginalLibrary()

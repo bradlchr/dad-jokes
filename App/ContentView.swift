@@ -68,6 +68,12 @@ struct ContentView: View {
         showsWhatsNew = true
       }
       .onChange(of: selection) { presentNarrationPrompt() }
+      .onChange(of: library.categories.map(\.name)) { _, names in
+        if let category = libraryFilter.category, !names.contains(category) {
+          libraryFilter.category = library.archive.renamedDefaultCategories?[category]
+            .flatMap { names.contains($0) ? $0 : nil }
+        }
+      }
       .alert("Optimize Joke Delivery?", isPresented: $showsNarrationPrompt) {
         if library.narrationOptimizer.isAvailable {
           Button("Optimize Library") { library.narrationOptimizer.optimizeLibrary(library) }
@@ -150,7 +156,8 @@ struct ContentView: View {
           selection = .library
         }
       case .library:
-        LibraryView(library: library, filter: $libraryFilter, showOnStage: showOnStage,
+        LibraryView(library: library, filter: $libraryFilter, isSelected: selection == .library,
+                    showOnStage: showOnStage,
                     openFile: { pickingFile = true })
       case .search:
         JokeSearchView(library: library, search: $search, isSelected: selection == .search, showOnStage: showOnStage)

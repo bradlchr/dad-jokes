@@ -7,6 +7,8 @@ final class JokeLibrary {
   let narrationOptimizer = JokeNarrationOptimizer()
   private(set) var archive = JokeLibrary.loadArchive()
   private(set) var migration = Migration.checking
+  private static let manualOrderKey = "library-manual-order"
+  private(set) var manualOrder = UserDefaults.standard.stringArray(forKey: manualOrderKey) ?? []
   private var deck: [String] = []
   private var deckAllowsMature = false
   private var recoveredCount = JokeLibrary.loadSavedLibrary()?.recoveredCount
@@ -34,13 +36,93 @@ final class JokeLibrary {
   }
 
   var jokes: [Joke] { archive.jokes }
+  private static var defaultCategories: [JokeCategory] {
+    JokeCatalog.categories.filter { $0.name != "Favorites" }
+  }
+
   var categories: [JokeCategory] {
-    let custom = Set(jokes.flatMap(\.categories))
-      .union(archive.categoryNames)
-      .subtracting(JokeCatalog.categories.map(\.name))
-    return (JokeCatalog.categories.filter { $0.name != "Favorites" }
-            + custom.filter { $0 != "Favorites" }.map { JokeCategory(name: $0, image: "tag") })
-      .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    let custom = Set(jokes.flatMap(\.categories)).union(archive.categoryNames)
+    let defaults = Self.defaultCategories.map { archive.renamedDefaultCategories?[$0.name] ?? $0.name }
+    let names = custom.union(defaults).subtracting(archive.removedCategories ?? []).subtracting(["Favorites"])
+    let originals = originalCategoryNames
+    return names.sorted { $0.localizedStandardCompare($1) == .orderedAscending }
+      .map { name in
+        let original = originals[name] ?? name
+        return JokeCategory(name: name, image: Self.defaultCategories.first { $0.name == original }?.image ?? "tag")
+      }
+  }
+
+  var originalCategoryNames: [String: String] {
+    Dictionary((archive.renamedDefaultCategories ?? [:]).map { ($0.value, $0.key) },
+               uniquingKeysWith: { first, _ in first })
+  }
+
+  func reservedCategoryNames(editing originalName: String? = nil) -> [String] {
+    let originalDefault = originalName.map { originalCategoryNames[$0] ?? $0 }
+    return categories.map(\.name).filter { $0 != originalName }
+      + Self.defaultCategories.map(\.name).filter { name in
+        name != originalDefault && (originalName != nil || archive.renamedDefaultCategories?[name] != nil)
+      }
+  }
+
+  func saveCategory(name: String, icon: Data?, replacing previousName: String? = nil) {
+    guard !name.isEmpty, name.caseInsensitiveCompare("Favorites") != .orderedSame,
+          !reservedCategoryNames(editing: previousName).contains(where: {
+            $0.caseInsensitiveCompare(name) == .orderedSame
+          }),
+          previousName.map({ previous in categories.contains { $0.name == previous } }) ?? true
+    else { return }
+
+    var updated = archive
+    if let previousName, previousName != name {
+      if let original = originalCategoryNames[previousName] ??
+        Self.defaultCategories.first(where: { $0.name == previousName })?.name {
+        var renamed = updated.renamedDefaultCategories ?? [:]
+        renamed[original] = original == name ? nil : name
+        updated.renamedDefaultCategories = renamed
+      }
+      updated.categoryNames.remove(previousName)
+      updated.categoryIcons?[previousName] = nil
+      updated.removedCategories = (updated.removedCategories ?? []).union([previousName])
+      for index in updated.jokes.indices {
+        updated.jokes[index].categories = updated.jokes[index].categories.map { $0 == previousName ? name : $0 }
+      }
+    }
+    updated.categoryNames.insert(name)
+    updated.removedCategories?.remove(name)
+    var icons = updated.categoryIcons ?? [:]
+    icons[name] = icon
+    updated.categoryIcons = icons
+    archive = updated
+    saveArchive()
+  }
+
+  func deleteCategory(named name: String) {
+    var updated = archive
+    updated.categoryNames.remove(name)
+    updated.categoryIcons?[name] = nil
+    updated.removedCategories = (updated.removedCategories ?? []).union([name])
+    for index in updated.jokes.indices {
+      updated.jokes[index].categories.removeAll { $0 == name }
+    }
+    archive = updated
+    saveArchive()
+  }
+
+  func resetCategories() {
+    let defaults = Set(Self.defaultCategories.map(\.name))
+    let originalNames = originalCategoryNames
+    var updated = archive
+    for index in updated.jokes.indices {
+      updated.jokes[index].categories = updated.jokes[index].categories
+        .map { originalNames[$0] ?? $0 }.filter { defaults.contains($0) }
+    }
+    updated.categoryNames = defaults
+    updated.categoryIcons = nil
+    updated.renamedDefaultCategories = nil
+    updated.removedCategories = nil
+    archive = updated
+    saveArchive()
   }
 
   func contains(_ joke: Joke) -> Bool { jokes.contains { $0.id == joke.id } }
@@ -59,17 +141,47 @@ final class JokeLibrary {
   func isFavorite(_ joke: Joke) -> Bool { archive.favorites.contains(joke.id) }
   func hasGroaned(_ joke: Joke) -> Bool { archive.groans.contains(joke.id) }
 
-  func save(_ joke: Joke) {
-    var updated = joke
+  func saveManualOrder(_ visibleOrder: [String]) {
+    let currentIDs = jokes.map(\.id)
+    let currentSet = Set(currentIDs)
+    let saved = manualOrder.filter { currentSet.contains($0) }
+    let savedSet = Set(saved)
+    let fullOrder = saved + currentIDs.filter { !savedSet.contains($0) }
+    let visible = Set(visibleOrder)
+    guard visible.count == visibleOrder.count, visible.isSubset(of: currentSet) else { return }
+
+    var replacements = visibleOrder.makeIterator()
+    manualOrder = fullOrder.map { visible.contains($0) ? replacements.next() ?? $0 : $0 }
+    UserDefaults.standard.set(manualOrder, forKey: Self.manualOrderKey)
+  }
+
+  func save(_ joke: Joke, isFavorite: Bool? = nil, categoryDrafts: [String: Data?] = [:]) {
+    let draftNames = Set(joke.categories).intersection(categoryDrafts.keys)
+    let allowedDrafts = draftNames.subtracting(archive.renamedDefaultCategories?.keys.map { $0 } ?? [])
+    archive.removedCategories?.subtract(allowedDrafts)
+    var updated = Self.applyingCategoryChanges(to: joke, in: archive)
     let previous = jokes.first { $0.id == joke.id }
     let textChanged = previous?.setup != joke.setup || previous?.punchline != joke.punchline
+    updated.dateAdded = previous == nil ? joke.dateAdded ?? .now : previous?.dateAdded
     updated.narration = textChanged ? nil : previous?.narration
     if let index = archive.jokes.firstIndex(where: { $0.id == joke.id }) {
       archive.jokes[index] = updated
     } else {
       archive.jokes.insert(updated, at: 0)
     }
-    archive.categoryNames.formUnion(joke.categories)
+    if let isFavorite {
+      if isFavorite {
+        archive.favorites.insert(joke.id)
+      } else {
+        archive.favorites.remove(joke.id)
+      }
+    }
+    let names = Set(updated.categories)
+    let newIcons = categoryDrafts.compactMapValues { $0 }.filter { names.contains($0.key) }
+    if !newIcons.isEmpty {
+      archive.categoryIcons = (archive.categoryIcons ?? [:]).merging(newIcons) { existing, _ in existing }
+    }
+    archive.categoryNames.formUnion(names)
     saveArchive()
     if textChanged { narrationOptimizer.schedule(updated, in: self) }
   }
@@ -84,7 +196,7 @@ final class JokeLibrary {
   }
 
   func currentVersion(of joke: Joke) -> Joke {
-    jokes.first { $0.id == joke.id } ?? joke
+    jokes.first { $0.id == joke.id } ?? Self.applyingCategoryChanges(to: joke, in: archive)
   }
 
   func delete(_ joke: Joke) {
@@ -98,7 +210,9 @@ final class JokeLibrary {
     if !archive.favorites.insert(joke.id).inserted {
       archive.favorites.remove(joke.id)
     } else if !contains(joke) {
-      archive.jokes.insert(joke, at: 0)
+      var added = Self.applyingCategoryChanges(to: joke, in: archive)
+      added.dateAdded = joke.dateAdded ?? .now
+      archive.jokes.insert(added, at: 0)
     }
     saveArchive()
   }
@@ -186,6 +300,7 @@ final class JokeLibrary {
     var inserted: [Joke] = []
     let originalCount = current.jokes.count
     for var joke in incoming.jokes where !joke.setup.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      joke = applyingCategoryChanges(to: joke, in: current)
       let oldID = joke.id
       if let index = existingByText[joke.normalizedText] {
         let existingID: String
@@ -208,13 +323,26 @@ final class JokeLibrary {
       if usedIDs.contains(joke.id) { joke.id = UUID().uuidString }
       usedIDs.insert(joke.id)
       if !preserveCategories { existingByText[joke.normalizedText] = originalCount + inserted.count }
+      if !preserveCategories { joke.dateAdded = joke.dateAdded ?? .now }
       inserted.append(joke)
       if incoming.favorites.contains(oldID) { result.favorites.insert(joke.id) }
       if incoming.groans.contains(oldID) { result.groans.insert(joke.id) }
     }
     result.jokes.insert(contentsOf: inserted, at: 0)
     result.categoryNames.formUnion(incoming.categoryNames)
+    if let icons = incoming.categoryIcons, !icons.isEmpty {
+      result.categoryIcons = (result.categoryIcons ?? [:]).merging(icons) { existing, _ in existing }
+    }
     return (result, inserted.count)
+  }
+
+  private static func applyingCategoryChanges(to joke: Joke, in archive: JokeArchive) -> Joke {
+    var updated = joke
+    var seen: Set<String> = []
+    updated.categories = joke.categories
+      .map { archive.renamedDefaultCategories?[$0] ?? $0 }
+      .filter { archive.removedCategories?.contains($0) != true && seen.insert($0).inserted }
+    return updated
   }
 
   nonisolated static func loadArchive() -> JokeArchive {

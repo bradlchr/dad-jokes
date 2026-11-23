@@ -5,6 +5,8 @@ struct JokeEditor: View {
   var library: JokeLibrary
   var existing: Bool
   @State private var joke: Joke
+  @State private var isFavorite: Bool
+  @State private var categoryDrafts: [String: Data?] = [:]
   @State private var showsCategories = false
   @State private var drawsArtwork = false
   @State private var artworkError = false
@@ -13,6 +15,7 @@ struct JokeEditor: View {
 
   init(joke: Joke, library: JokeLibrary, existing: Bool) {
     _joke = State(initialValue: joke)
+    _isFavorite = State(initialValue: library.isFavorite(joke))
     self.library = library
     self.existing = existing
   }
@@ -52,8 +55,9 @@ struct JokeEditor: View {
           Toggle("Mature joke", isOn: $joke.isMature)
         }
         Section {
+          Toggle("Favorite", systemImage: "heart", isOn: $isFavorite)
           DisclosureGroup(isExpanded: $showsCategories) {
-            JokeCategoryFields(categories: library.categories, selected: $joke.categories)
+            JokeCategoryFields(library: library, selected: $joke.categories, categoryDrafts: $categoryDrafts)
           } label: {
             LabeledContent {
               if !joke.categories.isEmpty {
@@ -91,7 +95,7 @@ struct JokeEditor: View {
           Button("Save") {
             joke.setup = joke.setup.trimmingCharacters(in: .whitespacesAndNewlines)
             joke.punchline = joke.punchline.trimmingCharacters(in: .whitespacesAndNewlines)
-            library.save(joke)
+            library.save(joke, isFavorite: isFavorite, categoryDrafts: categoryDrafts)
             dismiss()
           }
           .disabled(joke.setup.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)

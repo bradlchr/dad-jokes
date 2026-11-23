@@ -76,6 +76,7 @@ struct PreferencesView: View {
       Section("Dad Jokes Live") { favoriteDadRow }
       Section("Apple Intelligence") { narrationControls }
       Section("Appearance") { themePicker }
+      Section("Library") { manageCategories }
       Section("Library Backup") { backupControls }
       Section("About") { sourceLink }
     }
@@ -110,6 +111,7 @@ struct PreferencesView: View {
     VStack(spacing: 18) {
       preferenceCard("Reading") { readingControls }
       preferenceCard("Apple Intelligence") { narrationControls }
+      preferenceCard("Library") { manageCategories }
       preferenceCard("Library Backup") { backupControls }
       preferenceCard("About") { sourceLink }
     }
@@ -188,6 +190,14 @@ struct PreferencesView: View {
       }
     }
     .pickerStyle(.menu)
+  }
+
+  private var manageCategories: some View {
+    NavigationLink {
+      ManageCategoriesView(library: library)
+    } label: {
+      Label("Manage Categories", systemImage: "tag")
+    }
   }
 
   @ViewBuilder

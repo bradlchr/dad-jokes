@@ -6,6 +6,9 @@ struct JokeArchive: Codable, Sendable {
   var favorites: Set<String> = []
   var groans: Set<String> = []
   var categoryNames: Set<String> = []
+  var categoryIcons: [String: Data]?
+  var renamedDefaultCategories: [String: String]?
+  var removedCategories: Set<String>?
 
   static func decode(_ data: Data) throws -> Self {
     let decoder = JSONDecoder()

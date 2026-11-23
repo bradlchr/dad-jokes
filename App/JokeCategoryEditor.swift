@@ -4,6 +4,7 @@ struct JokeCategoryEditor: View {
   var joke: Joke
   var library: JokeLibrary
   @State private var selected: [String]
+  @State private var categoryDrafts: [String: Data?] = [:]
   @Environment(\.dismiss) private var dismiss
 
   init(joke: Joke, library: JokeLibrary) {
@@ -15,7 +16,7 @@ struct JokeCategoryEditor: View {
   var body: some View {
     NavigationStack {
       Form {
-        JokeCategoryFields(categories: library.categories, selected: $selected)
+        JokeCategoryFields(library: library, selected: $selected, categoryDrafts: $categoryDrafts)
       }
       .formStyle(.grouped)
       .navigationTitle("Categories")
@@ -27,7 +28,7 @@ struct JokeCategoryEditor: View {
           Button("Save") {
             if var latest = library.jokes.first(where: { $0.id == joke.id }) {
               latest.categories = selected
-              library.save(latest)
+              library.save(latest, categoryDrafts: categoryDrafts)
             }
             dismiss()
           }
@@ -42,29 +43,28 @@ struct JokeCategoryEditor: View {
 }
 
 struct JokeCategoryFields: View {
-  var categories: [JokeCategory]
+  var library: JokeLibrary
   @Binding var selected: [String]
-  @State private var newCategory = ""
-
-  private var categoryName: String {
-    newCategory.trimmingCharacters(in: .whitespacesAndNewlines)
-  }
+  @Binding var categoryDrafts: [String: Data?]
 
   private var choices: [JokeCategory] {
-    categories + selected.filter { name in
-      !categories.contains { $0.name == name }
-    }.map { JokeCategory(name: $0, image: "tag") }
+    let categories = library.categories
+    let knownNames = Set(categories.map(\.name))
+    let drafts = Set(selected).union(categoryDrafts.keys).subtracting(knownNames)
+    return categories + drafts.sorted().map { JokeCategory(name: $0, image: "tag") }
   }
 
   var body: some View {
-    HStack {
-      TextField("New category", text: $newCategory)
-        .onSubmit(addCategory)
-      Button("Add category", systemImage: "plus", action: addCategory)
-        .labelStyle(.iconOnly)
-        .buttonStyle(.borderless)
-        .disabled(categoryName.isEmpty || categoryName.caseInsensitiveCompare("Favorites") == .orderedSame)
+    NavigationLink {
+      CategoryDetailsView(library: library, additionalNames: choices.map(\.name),
+                          additionalIcons: categoryDrafts.compactMapValues { $0 }) { name, icon in
+        categoryDrafts.updateValue(icon, forKey: name)
+        selected.append(name)
+      }
+    } label: {
+      Label("New Category", systemImage: "plus")
     }
+
     ForEach(choices) { category in
       Toggle(isOn: Binding(
         get: { selected.contains(category.name) },
@@ -76,18 +76,10 @@ struct JokeCategoryFields: View {
           }
         }
       )) {
-        Label { Text(category.name) } icon: { CategoryArtwork(name: category.name) }
+        Label { Text(category.name) } icon: {
+          CategoryArtwork(name: category.name, draftIcon: categoryDrafts[category.name] ?? nil)
+        }
       }
     }
-  }
-
-  private func addCategory() {
-    guard !categoryName.isEmpty,
-          categoryName.caseInsensitiveCompare("Favorites") != .orderedSame else { return }
-    let name = categories.first {
-      $0.name.caseInsensitiveCompare(categoryName) == .orderedSame
-    }?.name ?? categoryName
-    if !selected.contains(name) { selected.append(name) }
-    newCategory = ""
   }
 }

@@ -3,14 +3,14 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 enum JokeArtwork {
-  static func prepare(from url: URL) throws -> Data {
+  static func prepare(from url: URL, maximumPixelSize: Int = 720) throws -> Data {
     let hasAccess = url.startAccessingSecurityScopedResource()
     defer { if hasAccess { url.stopAccessingSecurityScopedResource() } }
 
     let options = [
       kCGImageSourceCreateThumbnailFromImageAlways: true,
       kCGImageSourceCreateThumbnailWithTransform: true,
-      kCGImageSourceThumbnailMaxPixelSize: 720
+      kCGImageSourceThumbnailMaxPixelSize: maximumPixelSize
     ] as CFDictionary
     guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
           let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options) else {

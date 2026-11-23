@@ -3,7 +3,7 @@ import Foundation
 import UniformTypeIdentifiers
 
 extension UTType {
-  static let dadJoke = UTType(exportedAs: "com.mimikmeapps.dadjokes.joke", conformingTo: .json)
+  static let dadJoke = UTType(exportedAs: "com.mimikmeapps.dadjokes.joke", conformingTo: .data)
 }
 
 struct SharedJokeFile: Codable, Transferable, Sendable {
